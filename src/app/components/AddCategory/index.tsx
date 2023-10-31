@@ -26,7 +26,10 @@ export default function AddCategory({
   return (
     <Modal
       isOpen={isOpen}
-      closeModal={closeModal}
+      closeModal={() => {
+        setName('');
+        closeModal()
+      }}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
       <section className="p-5 text-light-primary-progress ">

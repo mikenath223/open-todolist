@@ -1,10 +1,11 @@
 import taskList from '@/data/mock/myProjects.tasks';
 import { ReactNode } from 'react';
 import TaskItem from './TaskItem';
+import { TaskItem as TaskItemType } from '@/types';
 
 interface $Props {
   title: string;
-  tasks: typeof taskList.todo;
+  tasks: TaskItemType[];
   headerIcon?: ReactNode;
 }
 

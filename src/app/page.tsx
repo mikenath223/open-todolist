@@ -3,7 +3,6 @@
 import TaskHeader from '@/app/components/TaskHeader';
 import TaskSidebar from '@/app/components/TaskSidebar';
 import MyTaskRow from '@/app/components/MyTaskRow';
-import myTasks from '@/data/mock/myTasks.tasks';
 import { useEffect, useState } from 'react';
 import { RootState } from '@/store';
 import { CategoryType, TaskType } from '@/types';
@@ -42,7 +41,7 @@ function Tasks() {
           <section
             className={`flex h-[calc(100vh-250px)] gap-8 overflow-y-auto`}
           >
-            <MyTaskRow tasks={myTasks} />
+            <MyTaskRow selectedGroupItem={selectedGroupItem} />
           </section>
         </div>
       </section>

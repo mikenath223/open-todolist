@@ -2,6 +2,11 @@ import { useEffect, useState } from 'react';
 import taskMockList from '@/data/mock/myTasks.tasks';
 import Checkbox from './Checkbox';
 import TaskItem from './TaskItem';
+import { TaskType } from '@/types';
+import { RootState } from '@/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { CategoryType } from '@/types';
+import { setTask } from '@/store/reducers/taskReducer';
 
 interface $TaskCheckbox {
   isCompleted: boolean;
@@ -17,35 +22,37 @@ function TaskCheckbox({ isCompleted, onCheck }: $TaskCheckbox) {
         label=""
       />
       <span className="border-r-[3px] border-[#DCDDDD]" />
-      {/* <Divider orientation={'vertical'} /> */}
     </div>
   );
 }
 
 interface $Props {
-  tasks: typeof taskMockList;
+  selectedGroupItem: CategoryType;
 }
 
-export default function TaskRow({ tasks }: $Props) {
-  const [taskList, setTaskList] = useState(tasks);
-  const noOfCompleted = tasks.reduce((a, c) => a + (c.completed ? 1 : 0), 0);
-
-  useEffect(() => {
-    setTaskList(tasks);
-  }, [tasks]);
+export default function TaskRow({ selectedGroupItem }: $Props) {
+  const tasks = useSelector((state: RootState) => state.tasks) as TaskType
+  const tasksList = tasks[selectedGroupItem?.title]?.tasks || [];
+  const noOfCompleted = tasksList.reduce((a, c) => a + (c.completed ? 1 : 0), 0);
+  const dispatch = useDispatch()
 
   const onCheck = (check: boolean, idx: number) => {
-    setTaskList((taskstate) =>
-      taskstate.map((item, itemIdx) => {
-        if (itemIdx === idx) {
-          return {
-            ...item,
-            completed: check,
-          };
-        }
-        return item;
-      }),
-    );
+    const newTasks = tasksList.map((item, itemIdx) => {
+      if (itemIdx === idx) {
+        return {
+          ...item,
+          completed: check,
+        };
+      }
+      return item;
+    })
+    dispatch(setTask({
+      ...tasks,
+      [selectedGroupItem.title]: {
+        id: selectedGroupItem.id,
+        tasks: newTasks
+      }
+    }));
   };
 
   return (
@@ -56,15 +63,15 @@ export default function TaskRow({ tasks }: $Props) {
             To Do
           </span>
           <span className="flex items-center justify-center rounded-full bg-light-primary-background px-2 text-light-primary-progress">
-            {tasks.length}
+            {tasksList.length}
           </span>
         </div>
         <span className="ml-auto text-body2 font-bold text-light-neutral-titleText">
-          {noOfCompleted}/{tasks.length}
+          {noOfCompleted}/{tasksList.length}
         </span>
       </div>
       <ul id="tasklist" className="my-4 flex list-none flex-col space-y-4">
-        {taskList.map((task, idx) => (
+        {tasksList.map((task, idx) => (
           <TaskItem task={task} key={task.title}>
             <TaskCheckbox
               isCompleted={task.completed}

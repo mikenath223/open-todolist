@@ -1,12 +1,12 @@
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import tasks from '@/data/mock/myProjects.tasks';
 import IconButton from './IconButton';
 import Timer from '@/icons/Timer';
 import { ReactNode } from 'react';
 import Trash from '@/icons/Trash';
+import { TaskItem } from '@/types';
 
 interface $Props {
-  task: (typeof tasks.todo)[0];
+  task: TaskItem;
   children?: ReactNode | ReactNode[];
 }
 
