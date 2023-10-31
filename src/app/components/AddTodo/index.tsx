@@ -81,6 +81,7 @@ export default function AddTodo({
             required
             value={name}
             onChange={onChange}
+            inputProps={{ maxLength: 40 }}
             id="name"
             label="Title"
             variant="outlined"
@@ -91,6 +92,7 @@ export default function AddTodo({
             onChange={onChange}
             id="description"
             label="Description"
+            inputProps={{ maxLength: 256 }}
             variant="outlined"
             multiline
             rows={4}
