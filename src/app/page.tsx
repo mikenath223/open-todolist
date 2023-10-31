@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import { RootState } from '@/store';
 import { CategoryType, TaskType } from '@/types';
 import { useSelector } from 'react-redux';
+import MenuIcon from "@mui/icons-material/Menu";
+import { IconButton } from '@mui/material';
 
 function Tasks() {
   const tasks = useSelector((state: RootState) => state.tasks) as TaskType
@@ -15,6 +17,7 @@ function Tasks() {
   const initCategory = categories[0] || {title: 'Please first add a category to add tasks', id: '0'};
 
   const [selectedGroupItem, setSelectedGroupItem] = useState<CategoryType>(initCategory);
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   const isCategoryStillExist = categories.some((category) => category.title === selectedGroupItem.title)
 
@@ -26,11 +29,26 @@ function Tasks() {
 
   return (
     <div className="flex h-screen grow flex-col">
-      <div className="flex min-h-[130px] items-center border-b border-light-neutral-border p-8 text-4xl font-extrabold shadow-sm">
-        Task Manager
+      <div className="flex min-h-[130px] items-center border-b border-light-neutral-border p-8 shadow-sm">
+      <IconButton
+          aria-label="open drawer"
+          edge="start"
+          onClick={() => setOpenDrawer(!openDrawer)}
+          sx={{
+            mr: 2,
+            display: { sm: "none" }
+          }}
+        >
+          <MenuIcon color='primary' />
+        </IconButton>
+        <span className='text-4xl font-extrabold'>
+          Task Manager
+        </span>
       </div>
-      <section className="flex h-full">
+      <section className="flex h-full relative">
         <TaskSidebar
+          setCloseDrawer={() => setOpenDrawer(false)}
+          openDrawer={openDrawer}
           selectedGroupItem={selectedGroupItem}
           setSelectedGroupItem={setSelectedGroupItem}
         />
