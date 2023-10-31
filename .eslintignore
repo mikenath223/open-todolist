@@ -1,0 +1,8 @@
+/public/
+# dotenv environment variables file
+.env
+.env.*
+.env.development
+.env.local
+.env.test
+.env.production
