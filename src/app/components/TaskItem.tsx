@@ -1,48 +1,54 @@
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import IconButton from './IconButton';
 import Timer from '@/icons/Timer';
 import { ReactNode } from 'react';
 import Trash from '@/icons/Trash';
-import { CategoryType, TaskItem, TaskType } from '@/types';
+import { CategoryType, TaskItem as TaskItemType } from '@/types';
 import { setTask } from '@/store/reducers/taskReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
+import IconButton from './IconButton';
 import CopyToClipboardButton from './CopyToClipBoardButton';
 
 interface $Props {
-  task: TaskItem;
+  task: TaskItemType;
   children?: ReactNode | ReactNode[];
   selectedGroupItem: CategoryType;
 }
 
-export default function TaskItem({ task, children, selectedGroupItem }: $Props) {
+export default function TaskItem({
+  task,
+  children,
+  selectedGroupItem,
+}: $Props) {
   const formattedDistance = formatDistanceToNow(new Date(task.dueDate));
   const isAlmostDue = formattedDistance.includes('1 minute');
   const dispatch = useDispatch();
-  const tasks = useSelector((state: RootState) => state.tasks) as TaskType;
+  const tasks = useSelector((state: RootState) => state.tasks);
 
   const onDeleteTask = () => {
-    const selectedTasks = tasks[selectedGroupItem?.title]?.tasks || []
-    const newTasks = selectedTasks.filter(({id}) => id !== task.id);
-    dispatch(setTask({
-      ...tasks,
-      [selectedGroupItem?.title || '']: {
-        id: selectedGroupItem?.id,
-        tasks: newTasks
-      }
-    }));
-  }
+    const selectedTasks = tasks[selectedGroupItem?.title]?.tasks || [];
+    const newTasks = selectedTasks.filter(({ id }) => id !== task.id);
+    dispatch(
+      setTask({
+        ...tasks,
+        [selectedGroupItem?.title || '']: {
+          id: selectedGroupItem?.id,
+          tasks: newTasks,
+        },
+      }),
+    );
+  };
 
   return (
     <li className="flex w-full gap-8 rounded-[4px] bg-light-neutral-dividers p-4">
       {children}
       <div className="flex w-full flex-col gap-4">
         <div className="flex w-full justify-between">
-          <div className='flex gap-3 items-center'>
-          <span className="text-h6 font-semibold text-light-neutral-bodyText">
-            {task.title}
-          </span>
-          <CopyToClipboardButton textToCopy={task.title} />
+          <div className="flex items-center gap-3">
+            <span className="text-h6 font-semibold text-light-neutral-bodyText">
+              {task.title}
+            </span>
+            <CopyToClipboardButton textToCopy={task.title} />
           </div>
           <IconButton icon={<Trash />} onClick={onDeleteTask} />
         </div>

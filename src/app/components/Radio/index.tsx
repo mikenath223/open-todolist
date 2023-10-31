@@ -35,7 +35,7 @@ export default function Radio({
         className="border-gray-300 bg-gray-100 text-light-primary-progress accent-light-primary-progress dark:border-gray-600 dark:bg-gray-700"
       />
       {children || (
-        <span className="ml-2 grow text-body2 font-normal text-light-neutral-bodyText">
+        <span className="text-body2 ml-2 grow font-normal text-light-neutral-bodyText">
           {label}
         </span>
       )}

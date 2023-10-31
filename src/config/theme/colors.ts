@@ -52,7 +52,7 @@ const palette = {
       action: '#8D0838',
       border: '#F9397E',
     },
-  }
-}
+  },
+};
 
 export default palette;

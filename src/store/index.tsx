@@ -7,16 +7,16 @@ import {
   useDispatch as useDispatchHook,
   useSelector as useSelectorHook,
 } from 'react-redux';
-import rootReducer from './reducers';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
+import rootReducer from './reducers';
 
 const persistConfig = {
   key: 'root',
   storage,
-}
+};
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,

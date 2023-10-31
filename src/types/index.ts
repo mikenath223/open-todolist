@@ -8,12 +8,12 @@ export interface TaskItem {
 
 export interface TaskType {
   [category: string]: {
-    id: string,
-    tasks: TaskItem[]
-  }
-};
+    id: string;
+    tasks: TaskItem[];
+  };
+}
 
 export interface CategoryType {
   title: string;
-  id: string
+  id: string;
 }

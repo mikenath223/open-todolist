@@ -5,20 +5,13 @@ import React, { ReactNode, MouseEvent } from 'react';
 interface $Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon: ReactNode;
   className?: string;
-  isDefault?: boolean;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   textBefore?: string;
   textAfter?: string;
 }
 
 function IconButton(props: $Props): React.JSX.Element {
-  const {
-    icon,
-    className = '',
-    onClick,
-    textBefore,
-    textAfter,
-  } = props;
+  const { icon, className = '', onClick, textBefore, textAfter } = props;
 
   return (
     <button

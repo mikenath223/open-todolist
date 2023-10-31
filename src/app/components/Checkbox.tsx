@@ -40,7 +40,7 @@ function Checkbox({
 
   return (
     <label
-      className="flex w-full select-none items-center gap-2 pl-[10px] text-body font-normal hover:cursor-pointer"
+      className="text-body flex w-full select-none items-center gap-2 pl-[10px] font-normal hover:cursor-pointer"
       htmlFor={id}
     >
       <input

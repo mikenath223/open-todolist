@@ -12,9 +12,9 @@ const taskSlice = createSlice({
       ...state,
       [action.payload.title]: {
         id: action.payload.id,
-        tasks: []
-      }
-    })
+        tasks: [],
+      },
+    }),
   },
 });
 

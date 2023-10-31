@@ -1,12 +1,11 @@
-import Checkbox from './Checkbox';
-import TaskItem from './TaskItem';
-import { TaskType } from '@/types';
+import { CategoryType } from '@/types';
 import { RootState } from '@/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { CategoryType } from '@/types';
 import { setTask } from '@/store/reducers/taskReducer';
-import SearchTasks from './SearchTasks';
 import { useDeferredValue, useMemo, useState } from 'react';
+import SearchTasks from './SearchTasks';
+import TaskItem from './TaskItem';
+import Checkbox from './Checkbox';
 
 interface $TaskCheckbox {
   isCompleted: boolean;
@@ -31,10 +30,16 @@ interface $Props {
 }
 
 export default function TaskRow({ selectedGroupItem }: $Props) {
-  const tasks = useSelector((state: RootState) => state.tasks) as TaskType
-  const tasksList = tasks[selectedGroupItem?.title]?.tasks || [];
-  const noOfCompleted = tasksList.reduce((a, c) => a + (c.completed ? 1 : 0), 0);
-  const dispatch = useDispatch()
+  const tasks = useSelector((state: RootState) => state.tasks);
+  const tasksList = useMemo(
+    () => tasks[selectedGroupItem?.title]?.tasks || [],
+    [tasks, selectedGroupItem?.title],
+  );
+  const noOfCompleted = tasksList.reduce(
+    (a, c) => a + (c.completed ? 1 : 0),
+    0,
+  );
+  const dispatch = useDispatch();
 
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedQuery = useDeferredValue(searchQuery);
@@ -48,27 +53,33 @@ export default function TaskRow({ selectedGroupItem }: $Props) {
         };
       }
       return item;
-    })
-    dispatch(setTask({
-      ...tasks,
-      [selectedGroupItem.title]: {
-        id: selectedGroupItem.id,
-        tasks: newTasks
-      }
-    }));
+    });
+    dispatch(
+      setTask({
+        ...tasks,
+        [selectedGroupItem.title]: {
+          id: selectedGroupItem.id,
+          tasks: newTasks,
+        },
+      }),
+    );
   };
 
-  const filteredTasks = useMemo(() => tasksList.filter(({title}) => {
-    const regex = new RegExp(debouncedQuery, 'i');
-    return regex.test(title)
-  }), [debouncedQuery, tasksList])
+  const filteredTasks = useMemo(
+    () =>
+      tasksList.filter(({ title }) => {
+        const regex = new RegExp(debouncedQuery, 'i');
+        return regex.test(title);
+      }),
+    [debouncedQuery, tasksList],
+  );
 
-  const renderedTasks = debouncedQuery !== '' ? filteredTasks : tasksList
+  const renderedTasks = debouncedQuery !== '' ? filteredTasks : tasksList;
 
   return (
     <section className="w-full">
-      <div className="mt-3 flex w-full items-center md:flex-row xs:flex-col border-b border-light-neutral-border pb-2">
-        <div className="flex min-w-max items-center gap-2 mr-4">
+      <div className="xs:flex-col mt-3 flex w-full items-center border-b border-light-neutral-border pb-2 md:flex-row">
+        <div className="mr-4 flex min-w-max items-center gap-2">
           <span className="text-body2 font-bold text-light-neutral-titleText">
             To Do
           </span>
@@ -76,16 +87,23 @@ export default function TaskRow({ selectedGroupItem }: $Props) {
             {tasksList.length}
           </span>
         </div>
-        <div className='mr-4 w-full max-w-[300px]'>
-        <SearchTasks searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <div className="mr-4 w-full max-w-[300px]">
+          <SearchTasks
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
         </div>
-        <span className="ml-auto text-body2 font-bold text-light-neutral-titleText">
+        <span className="text-body2 ml-auto font-bold text-light-neutral-titleText">
           {noOfCompleted}/{tasksList.length}
         </span>
       </div>
       <ul id="tasklist" className="my-4 flex list-none flex-col space-y-4">
         {renderedTasks.map((task, idx) => (
-          <TaskItem selectedGroupItem={selectedGroupItem} task={task} key={task.title}>
+          <TaskItem
+            selectedGroupItem={selectedGroupItem}
+            task={task}
+            key={task.title}
+          >
             <TaskCheckbox
               isCompleted={task.completed}
               onCheck={(check) => onCheck(check, idx)}
@@ -93,11 +111,13 @@ export default function TaskRow({ selectedGroupItem }: $Props) {
           </TaskItem>
         ))}
       </ul>
-      {debouncedQuery !== '' && tasksList.length !== 0 && filteredTasks.length === 0 && (
-        <span className="text-body2 font-medium text-light-neutral-titleText">
-        No todo items matching your search!
-      </span>
-      )}
+      {debouncedQuery !== '' &&
+        tasksList.length !== 0 &&
+        filteredTasks.length === 0 && (
+          <span className="text-body2 font-medium text-light-neutral-titleText">
+            No todo items matching your search!
+          </span>
+        )}
     </section>
   );
 }

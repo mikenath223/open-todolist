@@ -25,11 +25,16 @@ function CopyToClipboardButton({ textToCopy }: $Props) {
     <div>
       <CopyToClipboard text={textToCopy} onCopy={handleCopy}>
         <Button
-          startIcon={<FileCopyIcon sx={{fontSize: 14, color: '#979899'}} />}
+          startIcon={<FileCopyIcon sx={{ fontSize: 14, color: '#979899' }} />}
           variant="text"
           onClick={handleCopy}
         >
-          <Typography variant='body2' fontSize={'0.7rem'} textTransform={'none'} color={'#979899'}>
+          <Typography
+            variant="body2"
+            fontSize="0.7rem"
+            textTransform="none"
+            color="#979899"
+          >
             Copy to Clipboard
           </Typography>
         </Button>
