@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Task Manager Project
 
-## Getting Started
+## Description
 
-First, run the development server:
+This is a Todo List project built using Next.js. The project allows you to organize your tasks into categories, persist the todo data in local storage, and provides features like searching for todo items and copying them to the clipboard. The global state management is handled using Redux Toolkit.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Installation
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To install and run this project locally, follow these steps:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository: `git clone [repository URL]`
+2. Navigate to the project directory: `cd [project directory]`
+3. Install dependencies: `npm install`
+4. Start the development server: `npm run dev`
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Features
 
-## Learn More
+- **Todo Categories**: You can organize your todo items into different categories for better organization.
 
-To learn more about Next.js, take a look at the following resources:
+- **Persistent Storage**: The todo data is stored in the local storage of the browser, ensuring that your tasks are saved even if you close the application.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Global State Management**: Redux Toolkit is used to manage the global state of the application, allowing for efficient and centralized handling of data.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- **Search Functionality**: The project provides a search feature that allows you to quickly find specific todo items based on keywords or tags.
 
-## Deploy on Vercel
+- **Copy to Clipboard**: You can easily copy a todo item to your clipboard, making it convenient to share or use the content elsewhere.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Usage
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+To use the Todo List application, follow these steps:
+
+1. Open the application in your browser.
+2. Create a new category by clicking on the "Add Category" button.
+3. Within each category, you can add new todo items by clicking on the "Add Todo" button.
+4. Edit or delete existing todo items by clicking on the respective buttons.
+5. Use the search bar to find specific todo items by entering keywords or tags.
+6. To copy a todo item, click on the "Copy" button next to the respective todo.
+
+## Contributing
+
+Contributions to this project are welcome! If you would like to contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b [branch name]`.
+3. Make your changes and commit them: `git commit -m '[commit message]'`.
+4. Push to the branch: `git push origin [branch name]`.
+5. Create a pull request.
+
+Please make sure to follow the project's coding conventions and guidelines.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Contact
+
+If you have any questions or suggestions, feel free to contact the project maintainer:
+
+- [Ukeje Michgolden](mailto:ukejemichgolden@yahoo.com)
+
+## Acknowledgements
+
+- This project utilizes the following technologies and libraries: Next.js, Redux Toolkit.
