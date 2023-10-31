@@ -58,9 +58,8 @@ export default function TaskSidebar({
         title={"My Categories"}>
         <div className="ml-1">
           {categories.map(({ title, id }: CategoryType) => (
-            <div className='flex gap-1'>
+            <div className='flex gap-1' key={id}>
               <Radio
-                key={id}
                 id={id}
                 value={selectedGroupItem.id}
                 onChange={() =>
