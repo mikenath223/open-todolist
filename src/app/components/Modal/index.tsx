@@ -30,7 +30,10 @@ export default function TransitionsModal({children, isOpen, closeModal}: $Props)
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 400,
+            width: {
+              sm: 400,
+              xs: 300
+            },
             bgcolor: 'background.paper',
             boxShadow: 24,
             p: 4}}>
