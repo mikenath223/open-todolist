@@ -4,6 +4,10 @@
 
 This is a Todo List project built using Next.js. The project allows you to organize your tasks into categories, persist the todo data in local storage, and provides features like searching for todo items and copying them to the clipboard. The global state management is handled using Redux Toolkit.
 
+## Live link
+
+https://open-todolist-nn0w0dozu-mikenath223.vercel.app/
+
 ## Installation
 
 To install and run this project locally, follow these steps:
