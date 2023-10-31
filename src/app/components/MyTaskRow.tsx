@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import taskMockList from '@/data/mock/myTasks.tasks';
 import Checkbox from './Checkbox';
 import TaskItem from './TaskItem';
 import { TaskType } from '@/types';
@@ -7,6 +5,8 @@ import { RootState } from '@/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { CategoryType } from '@/types';
 import { setTask } from '@/store/reducers/taskReducer';
+import SearchTasks from './SearchTasks';
+import { useDeferredValue, useMemo, useState } from 'react';
 
 interface $TaskCheckbox {
   isCompleted: boolean;
@@ -36,6 +36,9 @@ export default function TaskRow({ selectedGroupItem }: $Props) {
   const noOfCompleted = tasksList.reduce((a, c) => a + (c.completed ? 1 : 0), 0);
   const dispatch = useDispatch()
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const debouncedQuery = useDeferredValue(searchQuery);
+
   const onCheck = (check: boolean, idx: number) => {
     const newTasks = tasksList.map((item, itemIdx) => {
       if (itemIdx === idx) {
@@ -55,10 +58,17 @@ export default function TaskRow({ selectedGroupItem }: $Props) {
     }));
   };
 
+  const filteredTasks = useMemo(() => tasksList.filter(({title}) => {
+    const regex = new RegExp(debouncedQuery, 'i');
+    return regex.test(title)
+  }), [debouncedQuery, tasksList])
+
+  const renderedTasks = debouncedQuery !== '' ? filteredTasks : tasksList
+
   return (
     <section className="w-full">
-      <div className="flex w-full items-center justify-between border-b border-light-neutral-border pb-2">
-        <div className="mr-auto flex w-full items-center gap-2">
+      <div className="mt-3 flex w-full items-center md:flex-row xs:flex-col border-b border-light-neutral-border pb-2">
+        <div className="flex min-w-max items-center gap-2 mr-4">
           <span className="text-body2 font-bold text-light-neutral-titleText">
             To Do
           </span>
@@ -66,13 +76,16 @@ export default function TaskRow({ selectedGroupItem }: $Props) {
             {tasksList.length}
           </span>
         </div>
+        <div className='mr-4 w-full max-w-[300px]'>
+        <SearchTasks searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        </div>
         <span className="ml-auto text-body2 font-bold text-light-neutral-titleText">
           {noOfCompleted}/{tasksList.length}
         </span>
       </div>
       <ul id="tasklist" className="my-4 flex list-none flex-col space-y-4">
-        {tasksList.map((task, idx) => (
-          <TaskItem task={task} key={task.title}>
+        {renderedTasks.map((task, idx) => (
+          <TaskItem selectedGroupItem={selectedGroupItem} task={task} key={task.title}>
             <TaskCheckbox
               isCompleted={task.completed}
               onCheck={(check) => onCheck(check, idx)}
@@ -80,6 +93,11 @@ export default function TaskRow({ selectedGroupItem }: $Props) {
           </TaskItem>
         ))}
       </ul>
+      {debouncedQuery !== '' && tasksList.length !== 0 && filteredTasks.length === 0 && (
+        <span className="text-body2 font-medium text-light-neutral-titleText">
+        No todo items matching your search!
+      </span>
+      )}
     </section>
   );
 }

@@ -23,21 +23,23 @@ export default function AddCategory({
     closeModal()
   }
 
+  const onClose = () => {
+    setName('');
+    closeModal()
+  }
+
   return (
     <Modal
       isOpen={isOpen}
-      closeModal={() => {
-        setName('');
-        closeModal()
-      }}
+      closeModal={onClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
-      <section className="p-5 text-light-primary-progress ">
+      <section className="text-light-primary-progress ">
         <form className='flex flex-col gap-5' onSubmit={onSubmit}>
         <Typography variant='h6' fontSize={'1.5rem'} marginBottom={0}>Create category</Typography>
         <TextField required inputProps={{ maxLength: 12 }} value={name} onChange={(e) => setName(e.target.value)} id="category-name" label="Category Name" variant="outlined" />
         <div className='flex gap-4 ml-auto mt-5'>
-          <Button type='button' variant='text'>
+          <Button type='button' variant='text' onClick={onClose}>
             Cancel
           </Button>
           <Button type='submit' variant='contained'>

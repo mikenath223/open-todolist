@@ -34,9 +34,10 @@ export default function AddTodo({
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const task: TaskItem = {
+      id: new Date().getTime().toString(),
       title: name,
       details: description,
-      dueDate: new Date(taskDeadline),
+      dueDate: taskDeadline,
       completed: false,
     }
     const selectedTasks = tasks[selectedGroupItem?.title]?.tasks || []
@@ -58,23 +59,25 @@ export default function AddTodo({
   const parsedDate = parseISO(new Date().toISOString())
   const minDate = format(parsedDate, "yyyy-MM-dd'T'HH:mm");
 
+  const onClose = () => {
+    setFormFields(initFormFields);
+    closeModal()
+  }
+
   return (
     <Modal
       isOpen={isOpen}
-      closeModal={() => {
-        setFormFields(initFormFields);
-        closeModal()
-      }}
+      closeModal={onClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
-      <section className="p-5 text-light-primary-progress ">
+      <section className="text-light-primary-progress ">
         <form className='flex flex-col gap-5' onSubmit={onSubmit}>
         <Typography variant='h6' fontSize={'1.5rem'} marginBottom={0}>Add todo</Typography>
         <TextField required value={name} onChange={onChange} id="name" label="Title" variant="outlined" />
         <TextField required value={description} onChange={onChange} id="description" label="Description" variant="outlined" multiline rows={4} />
         <TextField required value={taskDeadline} InputLabelProps={{ shrink: true }} inputProps={{ min: minDate }} type='datetime-local' onChange={onChange} id="taskDeadline" label="Task Deadline" variant="outlined" />
         <div className='flex gap-4 ml-auto mt-5'>
-          <Button type='button' variant='text'>
+          <Button type='button' variant='text' onClick={onClose}>
             Cancel
           </Button>
           <Button type='submit' variant='contained'>

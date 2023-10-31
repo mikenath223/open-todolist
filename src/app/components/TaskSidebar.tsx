@@ -44,7 +44,7 @@ export default function TaskSidebar({
   const dispatch = useDispatch()
   const tasks = useSelector((state: RootState) => state.tasks) as TaskType
   const categories = Object.entries(tasks)
-    .reduce((a, [key, value]) => [{ title: key, id: value.id }, ...a], [] as unknown[]) as CategoryType[];
+    .reduce((a, [key, value]) => [...a, { title: key, id: value.id }], [] as unknown[]) as CategoryType[];
   const [openAddCategory, setOpenAddCategory] = useState(false);
 
   const onRemoveCategory = (categoryId: string) => {

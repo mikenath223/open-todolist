@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 function Tasks() {
   const tasks = useSelector((state: RootState) => state.tasks) as TaskType
   const categories = Object.entries(tasks)
-    .reduce((a, [key, value]) => [{ title: key, id: value.id }, ...a], [] as unknown[]) as CategoryType[];
+    .reduce((a, [key, value]) => [...a, { title: key, id: value.id }], [] as unknown[]) as CategoryType[];
   const initCategory = categories[0] || {title: 'Please first add a category to add tasks', id: '0'};
 
   const [selectedGroupItem, setSelectedGroupItem] = useState<CategoryType>(initCategory);
