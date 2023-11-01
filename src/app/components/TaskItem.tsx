@@ -20,8 +20,11 @@ export default function TaskItem({
   children,
   selectedGroupItem,
 }: $Props) {
-  const formattedDistance = formatDistanceToNow(new Date(task.dueDate));
-  const isAlmostDue = formattedDistance.includes('1 minute');
+  const formattedDistance = formatDistanceToNow(new Date(task.dueDate), {
+    addSuffix: true,
+  });
+  const isAlmostDue =
+    formattedDistance.includes('1 minute') || formattedDistance.includes('ago');
   const dispatch = useDispatch();
   const tasks = useSelector((state: RootState) => state.tasks);
 
@@ -44,7 +47,7 @@ export default function TaskItem({
       {children}
       <div className="flex w-full flex-col gap-4">
         <div className="flex w-full justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col items-center gap-3 sm:flex-row">
             <span className="text-h6 font-semibold text-light-neutral-bodyText">
               {task.title}
             </span>
@@ -65,7 +68,7 @@ export default function TaskItem({
                   : 'text-light-neutral-titleText'
               }`}
             >
-              {formattedDistance} left
+              {formattedDistance}
             </span>
           </span>
         </div>
